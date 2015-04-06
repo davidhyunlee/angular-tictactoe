@@ -1,0 +1,153 @@
+<!doctype html>
+<html ng-app="ticTacToeApp">
+<head>
+<meta charset="UTF-8">
+<title>Tic-Tac-Toe</title>
+	<script type="text/javascript" charset="utf-8" src="bower_components/angular/angular.min.js"></script>
+	<script type="text/javascript" src="bower_components/firebase/firebase.js"></script>
+	<script type="text/javascript" src="bower_components/angularfire/dist/angularfire.min.js"></script>
+	<script type="text/javascript" src="bower_components/semantic-ui/dist/semantic.min.js"></script>
+	<script type="text/javascript" src="js/app.js"></script>
+	<script type="text/javascript" src="js/tictactoecontroller.js"></script>
+    <link rel="stylesheet" type="text/css" href="bower_components/semantic-ui/dist/semantic.min.css">
+    <link rel="stylesheet" href="css/style.css"/>
+    <link rel="stylesheet" type="text/css" href="css/animate.css">
+</head>
+
+<body ng-controller="tttCtrl as tictac">
+	<div id="container">
+		<div id="innercontainer">
+			<center><img class="logo" src="images/logo2.png" height="138" width="365"></center>
+			<!-- Start Screen -->
+			<div class="start" ng-hide="tictac.inGame">
+				<div class="creategamesegment">
+				<center><h3>Join an Existing Game</h3></center>
+						<br>
+						<div class="ui left icon input formelements splashinputfield">
+							<input type="text" ng-model="newPlayerName" placeholder="enter your name..">
+							<i class="user icon"></i>
+							<div class="ui corner label mini">
+							<i class="asterisk icon"></i>
+							</div>
+						</div>
+				</div>
+
+				<div class="join">
+					<div class="joingamesegment" ng-class="{joineffect: !games.Player2Slot}" ng-repeat="games in tictac.gamesList">
+			 			<p class="jointext"><b>Game Name:</b> {{ games.GameName }}</p>
+			 			<p ng-if="!games.Player2Slot" class="jointext"><b>Status:</b> {{ games.Player1Name }} is waiting for an opponent..</p>
+			 			<p ng-if="games.Player2Slot" class="jointext"><b>In Progress:</b> {{ games.Player1Name }} <b><span class="small">vs</span></b> {{ games.Player2Name }}</p>
+				    	<div class="ui mini animated red button" ng-if="!games.Player2Slot" ng-click="tictac.joinGame(games.GameID, newPlayerName)">
+						  <div class="visible content">
+						  Join game as {{ newPlayerName }}</div>
+						  <div class="hidden content">
+						    <i class="right game icon"></i>
+						  </div>
+						</div>
+						<div ng-if="games.Player2Slot" class="ui mini loading button">L</div>
+					</div>
+				</div>
+
+				<div class="creategamesegment">
+					<h3>Host a New Game</h3>
+					<form ng-submit="tictac.createGame(newGameName, newPlayerName)" class="inlineblock">
+						<div class="ui left icon input formelements splashinputfield">
+							<input type="text" ng-model="newGameName" placeholder="game name..">
+							<i class="game icon"></i>
+							<div class="ui corner label mini">
+							<i class="asterisk icon"></i>
+							</div>
+						</div>
+						<div class="ui left icon input formelements splashinputfield">
+							<input type="text" ng-model="newPlayerName" placeholder="your name..">
+							<i class="user icon"></i>
+							<div class="ui corner label mini">
+							<i class="asterisk icon"></i>
+							</div>
+						</div>
+						<input type="submit" class="hiddenobject">
+			    	</form>
+			    	<div class="ui animated red button" ng-click="tictac.createGame(newGameName, newPlayerName)">
+					  <div class="visible content">
+					  Host New Game</div>
+					  <div class="hidden content">
+					    <i class="right arrow icon"></i>
+					  </div>
+					</div>
+				</div>
+
+
+			</div>
+
+
+
+			<div id="gamecontainer" ng-show="tictac.inGame"> 
+				<div ng-if="tictac.Game.Player1Slot" class="playerbox playerbox_left">
+					<p ng-class="{'animated infinite pulse': tictac.Game.Player1.turn}" class="playername"><b>{{ tictac.Game.Player1Name }}</b></p>
+					<img src="images/marker1.png" height="80" width="80"><br><br>
+					<p>Wins: {{ tictac.Game.Player1.wins }}</p>
+					<p>Losses: {{ tictac.Game.Player1.losses }}</p>
+					<p>Ties: {{ tictac.Game.Player1.ties }}</p>
+				</div>
+
+				<div id="gameboard">
+					<div class="boardrow" ng-repeat="row in tictac.Game.grid">
+							<div class="spaces" ng-repeat="space in tictac.Game.grid[$index]" ng-click="tictac.makeMove(space.row, space.col)" ng-class="{empty: space.empty, player1: space.X, player2: space.O, 'winningspaces animated infinite rubberBand': space.winningSpace}"></div>
+					</div>
+				</div>
+
+				<div ng-if="tictac.Game.Player2Slot" class="playerbox playerbox_right">
+					<p ng-class="{'animated infinite pulse': tictac.Game.Player2.turn}" class="playername"><b>{{ tictac.Game.Player2Name }}</b></p>
+					<img src="images/marker2.png" height="80" width="80"><br><br>
+					<p>Wins: {{ tictac.Game.Player2.wins }}</p>
+					<p>Losses: {{ tictac.Game.Player2.losses }}</p>
+					<p>Ties: {{ tictac.Game.Player2.ties }}</p>
+				</div>
+
+
+				<div class="ingamemessages">
+				<p class="center" ng-if="!tictac.Game.Player2Slot">Waiting for a player to join the game..</p>
+				<span ng-if="tictac.Game.Player2Slot"><p class="center" ng-if="!tictac.Game.gameOver">🙊 Waiting on player {{ tictac.Game.currentPlayer }} to make a move..</p></span>
+				<p class="center" ng-if="tictac.Game.gameOver"><span ng-if="tictac.Game.gameWinner"><b>Player {{ tictac.Game.gameWinner }} wins!!</b></span></p>
+				<p class="center" ng-if="tictac.Game.tieGame">🐱 Tie Game! 🐱</p>
+				</div>
+					<br>
+				<center><div ng-if="tictac.Game.gameOver" class="ui small animated red button" ng-click="tictac.resetGame()">
+				  <div class="visible content">Reset Game</div>
+				  <div class="hidden content">
+				    <i class="right repeat icon"></i>
+				  </div>
+				</div></center>
+
+			<div class="chatbox">
+				<div ng-repeat="message in tictac.GameChat | limitTo: -8"><span>{{ message.text }}</span></div>
+			</div>
+			
+			<center>
+			<form ng-submit="tictac.addMessage()">
+				<div class="ui small action left icon input">
+					<i class="comment icon"></i>
+					<input type="text" class="inputfield" ng-model="tictac.newMessageText" placeholder="message here..">
+					<div class="ui small red button" ng-click="tictac.addMessage()">Send</div>
+				</div>
+				<button class="hiddenobject" type="submit"></button>
+	    	</form>
+			<br>
+			<div ng-click="tictac.leaveGame()" class="ui mini animated black button">
+			  <div class="visible content">Leave Game</div>
+			  <div class="hidden content">
+			    <i class="right remove icon"></i>
+			  </div>
+			</div>
+
+	    	</center>
+			</div>
+		</div>
+	</div>
+	<audio src="sounds/OOT_PauseMenu_Open.wav" id="taketurn"></audio>
+	<audio src="sounds/OOT_Fanfare_SmallItem.wav" id="gameover"></audio>
+	<audio src="sounds/OOT_PressStart.wav" id="joingame"></audio>
+	<audio src="sounds/OOT_Song_Error.wav" id="tiegame"></audio>
+	<audio src="sounds/OOT_MainMenu_Cancel.wav" id="leavegame"></audio>
+</body>
+</html>

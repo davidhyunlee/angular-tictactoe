@@ -1,0 +1,222 @@
+
+
+/* GLOBAL */
+
+body {
+	background: #000 url('../images/bg.png');
+}
+
+h1 {
+	font-size: 72px;
+	padding: 20px 0;
+	text-shadow: 4px 4px 0px #3D3D3D;
+}
+.playername {
+	font-size: 18px;
+}
+.center {
+	text-align: center;
+}
+
+.logo {
+	margin: 30px;
+}
+.ingamemessages {
+	font-size: 18px;
+}
+.small {
+	font-size: 10px;
+}
+
+.inputfield {
+	width: 440px;
+}
+
+.splashinputfield {
+	width: 340px;
+}
+
+#innercontainer {
+	background: url('../images/tictactoe.png') no-repeat ;
+	width: 900px;
+	height: 100%;
+	margin: 0 auto;
+}
+.joingamesegment {
+	width: 272px;
+	display: inline-block;
+	background-color: #EAEAEA;
+	margin: 10px;
+	border: 1px solid #909090;
+	padding: 10px;
+	border-radius: 5px;
+	box-shadow: 3px 3px #888888;
+	opacity: .95;
+
+}
+
+.joineffect {
+	width: 272px;
+	display: inline-block;
+	background-color: #EAEAEA;
+	margin: 10px;
+	border: 1px solid #909090;
+	padding: 10px;
+	border-radius: 5px;
+	box-shadow: 3px 3px #888888;
+	animation-name: joinBox;
+    animation-duration: 1s;
+    animation-iteration-count: infinite;
+	-webkit-animation-name: joinBox;
+    -webkit-animation-duration: 1s;
+    -webkit-animation-iteration-count: infinite;
+}
+@keyframes joinBox {
+    from {background-color: #E4E4E4;}
+    to {background-color: #FFFFFF;}
+}
+@-webkit-keyframes joinBox {
+    from {background-color: #E4E4E4;}
+    to {background-color: #FFFFFF;}
+}
+
+.creategamesegment {
+	width: 400px;
+	background-color: #FFFFFF;
+	margin: 20px auto;
+	border: 1px solid #909090;
+	padding: 10px;
+	border-radius: 5px;
+	box-shadow: 3px 3px #888888;
+	text-align: center;
+	opacity: .9;
+}
+
+.jointext {
+	font-size: 12px;
+	margin-bottom: 5px;
+}
+
+.hiddenobject {
+	visibility: hidden;
+	width: 0px;
+	height: 0px;
+	left: -1000px;
+	position: absolute;
+}
+
+/* TEMPLATE ELEMENTS */
+#container {
+	min-height: 100%;
+	width: 950px;
+	background: url('../images/container_bg.png') repeat-y;
+	margin: 0 auto;
+	padding: 0 14px;
+	background-color: transparent;
+}
+
+#gamecontainer {
+	position: relative;
+}
+
+.chatbox {
+	width: 500px;
+	border: 1px solid gray;
+	border-radius: 5px;
+	box-shadow: 3px 3px #888888;
+	margin: 20px auto;
+	padding: 10px;
+	background: url('../images/confectionary.png');
+	opacity: .95;
+}
+
+.playerbox {
+	width: 230px;
+	position: absolute;
+	display: inline-block;
+	border: 1px solid gray;
+	border-radius: 0px;
+	box-shadow: 3px 3px #888888;
+	margin: 10px;
+	padding: 10px;
+	text-align: center;
+	background: #fff url('../images/playerbox_bg.png');
+	opacity: .9;
+}
+	.playerbox_left {
+		top: 0px;
+
+	}
+
+	.playerbox_right {
+		top: 0px;
+		right: 0px;
+	}
+
+#gameboard {
+	margin: 0 auto 20px;
+	padding-top: 5px;
+	width: 380px;
+	text-align: center;
+
+}
+
+.boardrow {
+	margin: 0;
+	padding: 0;
+}
+
+.spaces {
+	display: inline-block;
+	height: 100px;
+	width: 100px;
+	background: url('../images/space_bg.png');
+	border: 0px solid black;
+	border-radius: 4px;
+	box-shadow: 3px 3px 1px #888888;
+	margin: 5px 5px 5px 5px;
+	border: 1px solid black;
+	vertical-align: middle;
+	opacity: .9;
+}
+	
+	.spaces:hover {
+		border-radius: 15px;
+	}
+
+/*.empty {
+	background-color: lightgray;
+	}
+*/
+
+.player1 {
+	background: #F8FF76 url('../images/marker1.png') no-repeat scroll center;
+	background-size: 80px 80px;
+}
+
+.player2 {
+	background: #87BFFF url('../images/marker2.png') no-repeat scroll center;
+	background-size: 80px 80px;
+}
+
+.winningspaces {
+	background-color: #DA0000;
+	border: 1px solid #B30001;
+}
+
+.marker {
+	height: 100px;
+	width: 100px;
+}
+
+.chatcontainer {
+	height: 300px;
+	overflow-y: scroll;
+}
+.inlineblock {
+	display: inline-block;
+}
+
+.formelements {
+	margin-bottom: 10px;
+}
