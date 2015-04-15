@@ -22,11 +22,6 @@
  			self.changeView = changeView;
  			self.leaveGame = leaveGame;
  			self.SFX = SFX;
- 			self.turnSFX = turnSFX;
- 			self.joinSFX = joinSFX;
- 			self.winSFX = winSFX;
- 			self.tieSFX = tieSFX;
- 			self.leaveSFX = leaveSFX;
 	
 
  			function leaveGame() {
@@ -38,7 +33,7 @@
  	 				self.dref.remove();
  	 				self.inGame = false;					
  				}
- 				self.leaveSFX();
+ 				self.SFX("leavegame");
  			}
 
  			function changeView(view) {
