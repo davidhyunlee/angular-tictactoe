@@ -21,6 +21,7 @@
  			self.addMessage = addMessage;
  			self.changeView = changeView;
  			self.leaveGame = leaveGame;
+ 			self.SFX = SFX;
  			self.turnSFX = turnSFX;
  			self.joinSFX = joinSFX;
  			self.winSFX = winSFX;
@@ -82,7 +83,7 @@
  				// gref.onDisconnect().update({Player1Slot: false});
  				gref.onDisconnect().remove();
   				cref.onDisconnect().remove();
-  				self.joinSFX();
+  				self.SFX("joingame");
  				self.resetGame();
  				self.determineStarter();
  				}
@@ -109,7 +110,7 @@
 	 				gref.update({Player2Name: name});
 	 				gref.update({Player2: {wins: 0, losses: 0, ties: 0, turn: false}});
 	 				dref.onDisconnect().remove();
-	 				self.joinSFX();
+	 				self.SFX("joingame");
 	 			}
         	}
 
@@ -147,7 +148,7 @@
 	 				self.Game.grid[row][col].player = 1;
 	 				self.Game.grid[row][col].X = true;
 	 				self.Game.turnsLeft--;
-	 				self.turnSFX();
+	 				self.SFX("taketurn");
 	 				self.Game.$save();
 	 				// checkForWin();
 	 				if (!checkForWin()) {self.switchTurn();}
@@ -156,7 +157,7 @@
 	 				self.Game.grid[row][col].player = 2;
 	 				self.Game.grid[row][col].O = true;
 	 				self.Game.turnsLeft--;
-	 				self.turnSFX();
+	 				self.SFX("taketurn");
 	 				self.Game.$save();
 	 				// checkForWin();
 	 				if (!checkForWin()) {self.switchTurn();}
@@ -213,10 +214,9 @@
 								checkSpaces[i][k].winningSpace = true;
 							}
 
-
 							self.Game.gameOver = true;
 							self.Game.$save();
-							self.winSFX();
+							self.SFX("gameover");
 
 							return checkSpaces[i];
 						}
@@ -228,39 +228,15 @@
 					self.Game.Player2.ties++;
 					self.Game.tieGame = true;
 					self.Game.gameOver = true;
-					self.tieSFX();
+					self.SFX("tiegame");
 				}
 
 			}
 
-			function turnSFX() {
-			var turnSFX = document.getElementById("taketurn");
-			turnSFX.loop = false;
-			turnSFX.play();
-			} 			
-
-			function joinSFX() {
-			var joinSFX = document.getElementById("joingame");
-			joinSFX.loop = false;
-			joinSFX.play();
-			} 			
-
-			function winSFX() {
-			var winSFX = document.getElementById("gameover");
-			winSFX.loop = false;
-			winSFX.play();
-			}
-
-			function tieSFX() {
-			var tieSFX = document.getElementById("tiegame");
-			tieSFX.loop = false;
-			tieSFX.play();
-			}			
-
-			function leaveSFX() {
-			var leaveSFX = document.getElementById("leavegame");
-			leaveSFX.loop = false;
-			leaveSFX.play();
+			function SFX(x) {
+				var SFX = document.getElementById(x);
+				SFX.loop = false;
+				SFX.play();
 			}
 		}
 })();
