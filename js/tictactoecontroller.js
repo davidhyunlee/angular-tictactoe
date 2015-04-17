@@ -8,7 +8,7 @@
 
 		function tttCtrl($firebaseArray, $firebaseObject) {
 
-			self = this;
+			var self = this;
 
 			self.inGame = false;
 
