@@ -25,11 +25,11 @@
 	
 
  			function leaveGame() {
- 				if (self.playerID == 1) {
+ 				if (self.playerID === 1) {
 	 				self.gref.remove();
 	  				self.cref.remove();
 	  				self.inGame = false;
- 				} else if (self.playerID == 2) {
+ 				} else if (self.playerID === 2) {
  	 				self.dref.remove();
  	 				self.inGame = false;					
  				}
@@ -42,11 +42,11 @@
 
  			// Adds New Message to Chat
 			function addMessage() {
-				if (self.playerID == 1) {
+				if (self.playerID === 1) {
 					self.GameChat.$add({
 						text: (self.Game.Player1Name + ' » ' + self.newMessageText)
 					});
-				} else if (self.playerID == 2) {
+				} else if (self.playerID === 2) {
 					self.GameChat.$add({
 						text: (self.Game.Player2Name + ' » ' + self.newMessageText)
 					});					
@@ -90,7 +90,7 @@
  			})();
 
  			function joinGame(gameid, name) {
- 				if (name === undefined || name === null || name == "") {
+ 				if (name === undefined || name === null || name === "") {
  					alert('You must enter a name to join the game.');
  				} else {
 					var gref = new Firebase("https://tictactic.firebaseio.com/games/" + gameid);
@@ -138,7 +138,7 @@
 	 		}
 
  			function makeMove(row, col) {
- 				if (!self.Game.gameOver && self.Game.grid[row][col].empty === true && self.Game.currentPlayer == 1 && self.playerID == 1 && self.Game.Player2Slot == true) {
+ 				if (!self.Game.gameOver && self.Game.grid[row][col].empty === true && self.Game.currentPlayer === 1 && self.playerID === 1 && self.Game.Player2Slot === true) {
 	 				self.Game.grid[row][col].empty = false;
 	 				self.Game.grid[row][col].player = 1;
 	 				self.Game.grid[row][col].X = true;
@@ -147,7 +147,7 @@
 	 				self.Game.$save();
 	 				// checkForWin();
 	 				if (!checkForWin()) {self.switchTurn();}
-	 			} else if (!self.Game.gameOver && self.Game.grid[row][col].empty === true && self.Game.currentPlayer == 2 && self.playerID == 2) {
+	 			} else if (!self.Game.gameOver && self.Game.grid[row][col].empty === true && self.Game.currentPlayer === 2 && self.playerID === 2) {
 	 				self.Game.grid[row][col].empty = false;
 	 				self.Game.grid[row][col].player = 2;
 	 				self.Game.grid[row][col].O = true;
@@ -160,12 +160,12 @@
  			}
 		
 			function switchTurn() {
-				if (self.Game.currentPlayer == 1) {
+				if (self.Game.currentPlayer === 1) {
 					self.Game.currentPlayer = 2;
 					self.Game.Player1.turn = false;
 					self.Game.Player2.turn = true;
 					self.Game.$save();
-				} else if (self.Game.currentPlayer == 2) {
+				} else if (self.Game.currentPlayer === 2) {
 					self.Game.currentPlayer = 1;
 					self.Game.Player2.turn = false;
 					self.Game.Player1.turn = true;
@@ -191,16 +191,16 @@
 				for (var i = 0; i < checkSpaces.length; i++) {
 				var count = 0;
 					for (var j = 0; j < 3; j++) {
-						if (checkSpaces[i][j].player == self.Game.currentPlayer) {
+						if (checkSpaces[i][j].player === self.Game.currentPlayer) {
 							count++;
 						}
 						if (count == 3) {
 							self.Game.gameWinner = self.Game.currentPlayer;
 
-							if (self.Game.gameWinner == 1) {
+							if (self.Game.gameWinner === 1) {
 								self.Game.Player1.wins++;
 								self.Game.Player2.losses++;
-							} else if (self.Game.gameWinner == 2) {
+							} else if (self.Game.gameWinner === 2) {
 								self.Game.Player2.wins++;
 								self.Game.Player1.losses++;
 							}
@@ -218,7 +218,7 @@
 					}
 				}
 
-				if (self.Game.turnsLeft == 0 && self.Game.gameWinner == 0) {
+				if (self.Game.turnsLeft === 0 && self.Game.gameWinner === 0) {
 					self.Game.Player1.ties++;
 					self.Game.Player2.ties++;
 					self.Game.tieGame = true;
