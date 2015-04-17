@@ -175,7 +175,7 @@
 
 			function determineStarter() {
 				self.Game.currentPlayer = Math.ceil(Math.random() * 2);
-				if (self.Game.currentPlayer == 1) {
+				if (self.Game.currentPlayer === 1) {
 					self.Game.Player1.turn = true;
 				}
 				self.Game.$save();
@@ -194,7 +194,7 @@
 						if (checkSpaces[i][j].player === self.Game.currentPlayer) {
 							count++;
 						}
-						if (count == 3) {
+						if (count === 3) {
 							self.Game.gameWinner = self.Game.currentPlayer;
 
 							if (self.Game.gameWinner === 1) {
